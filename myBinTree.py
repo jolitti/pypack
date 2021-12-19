@@ -19,6 +19,8 @@ class BinNode:
         newNode = BinNode(val,self)
         self.right = newNode
         return newNode
+    def addBoth(self,val1,val2) -> tuple["BinNode","BinNode"]:
+        return self.addLeft(val1),self.addRight(val2)
     
     def isRoot(self) -> bool:
         return self.parent is None
