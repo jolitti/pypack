@@ -3,24 +3,37 @@ from types import LambdaType
 
 class BinNode:
     parent: "BinNode" = None
+    depth:int = 0
     value = None
     left:"BinNode" = None
     right:"BinNode" = None
 
     def __init__(self,val=None,_parent:"BinNode"=None) -> None:
+        self.depth = 0
         self.parent = _parent
         self.value = val
         self.left, self.right = None,None
-    def addLeft(self,val) -> "BinNode":
+    def addLeft(self,val=None) -> "BinNode":
         newNode = BinNode(val,self)
         self.left = newNode
         return newNode
-    def addRight(self,val) -> "BinNode":
+    def addRight(self,val=None) -> "BinNode":
         newNode = BinNode(val,self)
         self.right = newNode
         return newNode
-    def addBoth(self,val1,val2) -> tuple["BinNode","BinNode"]:
+    def addBoth(self,val1=None,val2=None) -> tuple["BinNode","BinNode"]:
         return self.addLeft(val1),self.addRight(val2)
+
+    def hasLeft(self) -> bool: return self.left is not None
+    def hasRight(self) ->bool: return self.right is not None
+
+    def _setDepth(self,d=0):
+        self.depth = d
+        if self.hasLeft(): self.left._setDepth(d+1)
+        if self.hasRight(): self.right._setDepth(d+1)
+    def calcDepth(self):
+        r = self.getRoot()
+        r._setDepth()
     
     def isRoot(self) -> bool:
         return self.parent is None
@@ -67,3 +80,13 @@ class BinNode:
         if self.isLeaf(): return str(sVal)
         elif self.value is None: return f"[{sLeft},{sRight}]"
         else: return f"[{sVal}:{sLeft},{sRight}]"
+
+    def copy(self) -> "BinNode":
+        n = BinNode(self.value)
+        if self.left is not None:
+            n.left = self.left.copy()
+            n.left.parent = n
+        if self.right is not None:
+            n.right = self.right.copy()
+            n.right.parent = n
+        return n
