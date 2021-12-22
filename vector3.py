@@ -1,6 +1,10 @@
 from typing import Union, overload
 
 class Vector3:
+    """
+    Represents a point or a vector in 3D cartesian space
+    (integers only)
+    """
     x:int
     y:int
     z:int
@@ -40,9 +44,12 @@ class Vector3:
 
 
 def intDistance(a:Vector3,b:Vector3) -> int:
-    from math import isqrt
+    """
+    Cartesian distance between two vectors, rounded down
+    """
+    from math import sqrt,floor
     dx,dy,dz = a.x-b.x, a.y-b.y, a.z-b.z
-    return isqrt(dx*dx + dy*dy + dz*dz)
+    return floor(sqrt(dx*dx + dy*dy + dz*dz))
 
 
 #Debug main function
