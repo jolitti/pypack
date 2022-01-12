@@ -1,3 +1,4 @@
+from math import copysign
 from typing import Union, overload
 
 class Vector3:
@@ -40,6 +41,11 @@ class Vector3:
 
     def __hash__(self) -> int:
         return hash((self.x,self.y,self.z))
+    def abs(self) -> "Vector3":
+        nx = abs(self.x)
+        ny = abs(self.y)
+        nz = abs(self.x)
+        return Vector3(nx,ny,nz)
 
 
 
@@ -50,10 +56,20 @@ def intDistance(a:Vector3,b:Vector3) -> int:
     from math import sqrt,floor
     dx,dy,dz = a.x-b.x, a.y-b.y, a.z-b.z
     return floor(sqrt(dx*dx + dy*dy + dz*dz))
-
+def vecDistance(a:Vector3,b:Vector3) -> tuple[int,int,int]:
+    """
+    Vector distance between two vectors, converted to tuple\n
+    The result plus a equals b
+    """
+    return (b-a).toTuple()
+def manDistance(a:Vector3,b:Vector3) -> int:
+    """
+    Manhattan distance between a and b
+    """
+    return abs(a.x-b.x) + abs(a.y-b.y) + abs(a.z-b.z)
 
 #Debug main function
 if __name__ == "__main__":
     v1 = Vector3(-1,0,0)
-    v2 = Vector3(1,0,0)
-    print(intDistance(v1,v2))
+    v2 = Vector3(1,1,0)
+    print(vecDistance(v1,v2))
